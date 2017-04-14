@@ -21,6 +21,8 @@ public protocol MenuViewCustomizable {
     var menuPosition: MenuPosition { get }
     var dividerImage: UIImage? { get }
     var itemsOptions: [MenuItemViewCustomizable] { get }
+    var menuViewOffset: CGFloat { get } // custom
+    var contentScrollViewOffset: CGFloat { get }// custom
 }
 
 public extension MenuViewCustomizable {
@@ -57,6 +59,12 @@ public extension MenuViewCustomizable {
     var dividerImage: UIImage? {
         return nil
     }
+    var menuViewOffset: CGFloat { // custom
+        return 0
+    }
+    var contentScrollViewOffset: CGFloat { // custom
+        return 0
+    }
 }
 
 public enum MenuDisplayMode {
@@ -85,4 +93,5 @@ public enum MenuFocusMode {
 public enum MenuPosition {
     case top
     case bottom
+    case overlay
 }

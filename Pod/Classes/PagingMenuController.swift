@@ -115,7 +115,13 @@ open class PagingMenuController: UIViewController {
         
         setupMenuView()
         setupMenuController()
-        
+
+        // custom
+        if var inset = pagingViewController?.contentScrollView.contentInset, let menuOptions = menuOptions {
+            inset.top += menuOptions.contentScrollViewOffset
+            pagingViewController?.contentScrollView.contentInset = inset
+        }
+
         move(toPage: currentPage, animated: false)
     }
     
@@ -223,6 +229,9 @@ open class PagingMenuController: UIViewController {
             case .bottom:
                 // V:[menuView]|
                 menuView.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
+            case .overlay:
+                // custom
+                menuView.topAnchor.constraint(equalTo: view.topAnchor, constant: menuOptions.menuViewOffset).isActive = true
             }
         case .menuView(let menuOptions):
             height = menuOptions.height
@@ -286,6 +295,13 @@ open class PagingMenuController: UIViewController {
                     pagingViewController.view.topAnchor.constraint(equalTo: view.topAnchor),
                     pagingViewController.view.bottomAnchor.constraint(equalTo: menuView.topAnchor, constant: 0),
                     ])
+            case .overlay:
+                // custom
+                NSLayoutConstraint.activate([
+                    pagingViewController.view.topAnchor.constraint(equalTo: view.topAnchor),
+                    pagingViewController.view.bottomAnchor.constraint(equalTo: view.bottomAnchor),
+                    ])
+                view.bringSubview(toFront: menuView)
             }
         default: return
         }
